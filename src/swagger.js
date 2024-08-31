@@ -1,7 +1,11 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import express from 'express';
-const app = express();
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Obtener la ruta del directorio actual
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const options = {
     definition: {
@@ -17,11 +21,11 @@ const options = {
             },
         ],
     },
-    apis: ['./routes/*.js'], // Archivos donde están definidas las rutas
+    apis: [join(__dirname, './routes/*.js')], // Archivos donde están definidas las rutas
 };
 
 const specs = swaggerJsdoc(options);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+const swaggerMiddleware = [swaggerUi.serve, swaggerUi.setup(specs)];
 
-export default app;
+export default swaggerMiddleware;
