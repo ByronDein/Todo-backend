@@ -22,7 +22,6 @@ const router = express.Router();
  *           type: boolean
  *           description: The status of the task
  *       example:
- *         id: 1
  *         text: Do the laundry
  *         completed: false
  */
