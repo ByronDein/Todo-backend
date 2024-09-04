@@ -173,6 +173,33 @@ router.patch('/:id', async (req, res) => {
     }
 });
 
+
+/**
+ * @swagger
+ * /tasks:
+ *   delete:
+ *     summary: Remove all the tasks from the list
+ *     tags: [Tasks]
+ *     responses:
+ *       200:
+ *         description: all the tasks were deleted
+ *       404:
+ *         description: The tasks were not found
+ */
+router.delete('/', async (req, res) => {
+    try {
+        const deletedCount = await Task.destroy({ where: {} });
+
+        if (deletedCount > 0) {
+            res.json({ message: 'All task were deleted' });
+        } else {
+            res.status(404).json({ message: 'Task not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 /**
  * @swagger
  * /tasks/{id}:
