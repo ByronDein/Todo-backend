@@ -1,5 +1,12 @@
 import express from 'express';
-import Task from '../models/task.js';
+import {
+    getAllTasks,
+    createTask,
+    getTaskById,
+    updateTask,
+    deleteAllTasks,
+    deleteTaskById
+} from '../controllers/taskController.js';
 
 const router = express.Router();
 
@@ -49,18 +56,7 @@ const router = express.Router();
  *               items:
  *                 $ref: '#/components/schemas/Task'
  */
-router.get('/', async (req, res) => {
-    try {
-        const tasks = await Task.findAll();
-        if (tasks) {
-            res.json(tasks);
-        } else {
-            res.status(404).json({ message: 'Tasks not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+router.get('/', getAllTasks);
 
 /**
  * @swagger
@@ -84,18 +80,7 @@ router.get('/', async (req, res) => {
  *       500:
  *         description: Some server error
  */
-router.post('/', async (req, res) => {
-    const task = Task.build({
-        text: req.body.text,
-        completed: false
-    });
-    try {
-        const savedTask = await task.save();
-        res.status(201).json(savedTask);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+router.post('/', createTask);
 
 /**
  * @swagger
@@ -120,18 +105,7 @@ router.post('/', async (req, res) => {
  *       404:
  *         description: The task was not found
  */
-router.get('/:id', async (req, res) => {
-    try {
-        const task = await Task.findByPk(req.params.id);
-        if (task) {
-            res.json(task);
-        } else {
-            res.status(404).json({ message: 'Task not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+router.get('/:id', getTaskById);
 
 /**
  * @swagger
@@ -158,21 +132,7 @@ router.get('/:id', async (req, res) => {
  *       500:
  *         description: Some error happened
  */
-router.patch('/:id', async (req, res) => {
-    try {
-        const task = await Task.findByPk(req.params.id);
-        if (task) {
-            task.completed = !task.completed;
-            await task.save();
-            res.json(task);
-        } else {
-            res.status(404).json({ message: 'Task not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
+router.patch('/:id', updateTask);
 
 /**
  * @swagger
@@ -182,23 +142,11 @@ router.patch('/:id', async (req, res) => {
  *     tags: [Tasks]
  *     responses:
  *       200:
- *         description: all the tasks were deleted
+ *         description: All the tasks were deleted
  *       404:
  *         description: The tasks were not found
  */
-router.delete('/', async (req, res) => {
-    try {
-        const deletedCount = await Task.destroy({ where: {} });
-
-        if (deletedCount > 0) {
-            res.json({ message: 'All task were deleted' });
-        } else {
-            res.status(404).json({ message: 'Task not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+router.delete('/', deleteAllTasks);
 
 /**
  * @swagger
@@ -219,18 +167,6 @@ router.delete('/', async (req, res) => {
  *       404:
  *         description: The task was not found
  */
-router.delete('/:id', async (req, res) => {
-    try {
-        const task = await Task.findByPk(req.params.id);
-        if (task) {
-            await task.destroy();
-            res.json({ message: 'Task deleted' });
-        } else {
-            res.status(404).json({ message: 'Task not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+router.delete('/:id', deleteTaskById);
 
 export default router;

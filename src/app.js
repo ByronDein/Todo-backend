@@ -2,6 +2,7 @@ import express from "express";
 import sequelize from "./config/database.js";
 import swaggerMiddleware from "./swagger.js";
 import Task from "./routes/tasks.js";
+import User from "./routes/users.js";
 import dotenv from "dotenv";
 import cors from "cors"; // Importar el middleware cors
 
@@ -20,6 +21,7 @@ app.use(cors(corsOptions)); // Usar el middleware cors
 app.use(express.json());
 
 app.use("/tasks", Task);
+app.use("/users", User);
 
 app.use("/api-docs", ...swaggerMiddleware);
 
