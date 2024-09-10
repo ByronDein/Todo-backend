@@ -1,6 +1,4 @@
-// import app from "./app.js";
-import e from "express";
-const app = e();
+import app from "./app.js";
 
 const port = process.env.PORT || 5000;
 
