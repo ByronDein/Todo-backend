@@ -13,7 +13,7 @@ dotenv.config();
 const app = express();
 
 const corsOptions = {
-    origin: ["https://todolist-byron-gonzalez.vercel.app/",'http://localhost:5173'],
+    origin: ["https://todolist-byron-gonzalez.vercel.app/",'http://localhost:5173', 'https://todo-list-api.azurewebsites.net/',],
     optionsSuccessStatus: 200 // Algunas versiones antiguas de navegadores (IE11, algunos SmartTVs) fallan con 204
 };
 
