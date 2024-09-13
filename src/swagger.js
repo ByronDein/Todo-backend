@@ -2,6 +2,9 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Obtener la ruta del directorio actual
 const __filename = fileURLToPath(import.meta.url);
@@ -17,7 +20,8 @@ const options = {
         },
         servers: [
             {
-                url: 'https://todo-list-api.azurewebsites.net/',
+                // url: 'https://todo-list-api.azurewebsites.net/',
+                url: process.env.BASE_URL,
             },
         ],
     },
