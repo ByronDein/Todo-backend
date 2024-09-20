@@ -15,7 +15,8 @@ export const getAllTasks = async (req, res) => {
 export const createTask = async (req, res) => {
     const task = Task.build({
         text: req.body.text,
-        completed: false
+        completed: false,
+        userId: req.body.userId,
     });
     try {
         const savedTask = await task.save();
