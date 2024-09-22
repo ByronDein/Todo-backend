@@ -2,7 +2,7 @@ import express from 'express';
 import {
     getAllTasks,
     createTask,
-    getTaskById,
+    getTasksById,
     updateTask,
     deleteAllTasks,
     deleteTaskById
@@ -85,7 +85,7 @@ router.post('/', createTask);
  * @swagger
  * /tasks/{id}:
  *   get:
- *     summary: Get the task by id
+ *     summary: Get all the task by user id
  *     tags: [Tasks]
  *     parameters:
  *       - in: path
@@ -93,18 +93,18 @@ router.post('/', createTask);
  *         schema:
  *           type: integer
  *         required: true
- *         description: The task id
+ *         description: all the task by user id
  *     responses:
  *       200:
- *         description: The task description by id
+ *         description: The tasks was successfully found
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Task'
  *       404:
- *         description: The task was not found
+ *         description: The tasks was not found
  */
-router.get('/:id', getTaskById);
+router.get('/:id', getTasksById);
 
 /**
  * @swagger

@@ -26,13 +26,13 @@ export const createTask = async (req, res) => {
     }
 };
 
-export const getTaskById = async (req, res) => {
+export const getTasksById = async (req, res) => {
     try {
-        const task = await Task.findByPk(req.params.id);
-        if (task) {
-            res.json(task);
+        const tasks = await Task.findAll({ where: {userId: req.params.id} });
+        if (tasks) {
+            res.json(tasks);
         } else {
-            res.status(404).json({ message: 'Task not found' });
+            res.status(404).json({ message: 'Tasks not found' });
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
