@@ -23,7 +23,6 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
     const {email, password} = req.body;
-    console.log(req.body);
     try {
         const user = await User.findOne({ where: { email: email } });
         if (!user) {
@@ -38,7 +37,6 @@ export const login = async (req, res) => {
         const token = jwt.sign({email: email, password: password }, process.env.TOKEN_SECRET);
         res.header('auth-token', token).json({ token, user: user.id, name: user.username });
     } catch (error) {
-        console.log(error);
         res.status(500).json({ message: error.message });
     }
 }
